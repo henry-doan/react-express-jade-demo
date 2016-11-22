@@ -23,10 +23,11 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
 	Comment.findByIdAndUpdate(
 		req.params.id,
-		{ $set: { content: req.body.content }},
+		{ $set: { author: req.body.author ,content: req.body.content }},
+		{ new: true},
 		function(err, comment) {
 			res.json(comment);
-		});
+	});
 });
 
 module.exports = router;

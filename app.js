@@ -6,11 +6,20 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect( 'mongodb://localhost/react-express-demo' );
+var webpack = require('webpack');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackConfig = require('./config/webpack.config');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var comments = require('./routes/comments');
 var app = express();
+
+//webpack setup
+var compiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(compiler, {
+	noInfo: true, publicPath: webpackConfig.output.publicPath
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -10,8 +10,9 @@ class Comment extends React.Component{
 		return(
 			<div>
 				<h2>{this.props.author}</h2>
+				<input ref='editAuthor' defualtValue={this.props.author} />
 				<input ref='editContent' defualtValue={this.props.content} />
-				<button onClick={() => this.toggleEdit}>Cancel</button>
+				<button onClick={this.toggleEdit}>Cancel</button>
 				<button onClick={this.editComment}>Save</button>
 			</div>
 		);
@@ -22,11 +23,12 @@ class Comment extends React.Component{
 	}
 
 	editComment() {
+
 		$.ajax({
 			url: `/comments/${this.props._id}`,
 			type: 'PUT',
 			dataType: 'JSON',
-			data: { content: this.refs.editContent.value }
+			data: { author: this.refs.editAuthor.value, content: this.refs.editContent.value }
 		}).done( comment => {
 		 	this.toggleEdit();
 		 	this.props.refresh();
